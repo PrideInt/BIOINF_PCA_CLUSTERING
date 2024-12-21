@@ -59,9 +59,9 @@ for i in range(n_clusters):
 cluster_labels = kmeans.labels_
 
 cluster_df = pd.DataFrame({'cluster': cluster_labels, 'target': frame['name']})
-cluster_df.to_csv('cluster.csv', index=False)
+cluster_df.to_csv('cluster-test.csv', index=False)
 
-with open('cluster.csv', mode ='r') as file:
+with open('cluster-test.csv', mode ='r') as file:
     csv_file = csv.reader(file)
     
     for lines in csv_file:
@@ -73,4 +73,4 @@ with open('cluster.csv', mode ='r') as file:
             continue
 
 for i in range(n_clusters):
-    print(f'Cluster {i}: {clusters[i]}')
+    pd.DataFrame(clusters[i]).to_excel(f'./clusters-test/cluster-{i}.xlsx', index=False)
