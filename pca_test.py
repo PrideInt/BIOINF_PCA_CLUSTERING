@@ -17,6 +17,7 @@ features = [
 ]
 
 n_clusters = 5
+r_state = 88
 
 # Load the data
 frame = pd.read_csv('sample.csv')
@@ -32,7 +33,7 @@ X = StandardScaler().fit_transform(X)
 pca = PCA(n_components=2)
 result = pca.fit_transform(X)
 
-kmeans = KMeans(n_clusters=n_clusters)
+kmeans = KMeans(n_clusters=n_clusters, random_state=r_state)
 clusters = kmeans.fit_predict(result)
 
 frame['cluster'] = clusters
@@ -74,3 +75,23 @@ with open('cluster-test.csv', mode ='r') as file:
 
 for i in range(n_clusters):
     pd.DataFrame(clusters[i]).to_excel(f'./clusters-test/cluster-{i}.xlsx', index=False)
+
+# 3D projection
+
+pca = PCA(n_components=3)
+result = pca.fit_transform(X)
+
+kmeans = KMeans(n_clusters=n_clusters, random_state=r_state)
+clusters = kmeans.fit_predict(result)
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+p = ax.scatter(result[:, 0], result[:, 1], result[:, 2], c=clusters, s=50, cmap='viridis')
+
+ax.set_xlabel('Principal Component 1')
+ax.set_ylabel('Principal Component 2')
+ax.set_zlabel('Principal Component 3')
+
+fig.colorbar(p)
+plt.show()
