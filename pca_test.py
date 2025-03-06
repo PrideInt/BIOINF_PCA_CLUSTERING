@@ -8,6 +8,8 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
+import mplcursors
+
 target = ['name']
 
 features = [
@@ -45,6 +47,12 @@ plt.scatter(result[:, 0], result[:, 1], c=clusters, s=50, cmap='viridis')
 # centers = kmeans.cluster_centers_
 
 # nplt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+
+def show_annotation(sel):
+    index = sel.index
+    sel.annotation.set_text(f"Target: {cluster_df.loc[index, 'target']}, Cluster: {cluster_df.loc[index, 'cluster']}")
+
+mplcursors.cursor(hover=True).connect('add', show_annotation)
 
 plt.xlabel('Principal Component 1', fontsize = 15)
 plt.ylabel('Principal Component 2', fontsize = 15)
